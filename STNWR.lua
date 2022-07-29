@@ -1,10 +1,25 @@
 --[[Created By: Unordinary, Modified By: HallowWaz]]
+
+local ScreenGui = Instance.new("ScreenGui",game.CoreGui)
+ScreenGui.Name = "WRESP"
+local RelicFrame = Instance.new("Frame",ScreenGui)
+RelicFrame.Name = "Relics"
+local MurchFrame = Instance.new("Frame",ScreenGui)
+MurchFrame.Name = "Murch"
+local SpotFrame = Instance.new("Frame",ScreenGui)
+SpotFrame.Name = "Spots"
+local TaskFrame = Instance.new("Frame",ScreenGui)
+TaskFrame.Name = "Task"
+
+
 for i, v in pairs(game:GetDescendants()) do
 	if v.Name == "ScreenGui" then
 		v:Destroy()
 	end
 end
 local debouncespot = false
+
+local Update =1
 
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
@@ -23,6 +38,10 @@ local UIGradient = Instance.new("UIGradient")
 local cool = true
 local on = true
 local oN = true
+
+local UpdateAlpha = false
+local UpdateBeta = false
+local UpdateOmega = false
 
 ScreenGui.Parent = game:WaitForChild("CoreGui")
 ScreenGui.ResetOnSpawn = false
@@ -66,11 +85,11 @@ ScrollingFrame.ScrollBarThickness = 10
 RelicESP.Name = "RelicESP"
 RelicESP.Parent = ScrollingFrame
 RelicESP.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RelicESP.Position = UDim2.new(0.0531504489, 0, 0.0384944826, 0)
+RelicESP.Position = UDim2.new(0.0531504489, 0, 0.0213227645, 0)
 RelicESP.Size = UDim2.new(0, 136, 0, 27)
 RelicESP.Style = Enum.ButtonStyle.RobloxRoundButton
 RelicESP.Font = Enum.Font.SourceSans
-RelicESP.Text = "RelicESP"
+RelicESP.Text = "AutoRelicESP"
 RelicESP.TextColor3 = Color3.fromRGB(247, 247, 72)
 RelicESP.TextSize = 16.000
 RelicESP.TextWrapped = true
@@ -78,7 +97,7 @@ RelicESP.TextWrapped = true
 RelicAura.Name = "SlasherType"
 RelicAura.Parent = ScrollingFrame
 RelicAura.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RelicAura.Position = UDim2.new(0.0531504489, 0, 0.0900096372, 0)
+RelicAura.Position = UDim2.new(0.0466145016, 0, 0.072837919, 0)
 RelicAura.Size = UDim2.new(0, 136, 0, 27)
 RelicAura.Style = Enum.ButtonStyle.RobloxRoundButton
 RelicAura.Font = Enum.Font.SourceSans
@@ -111,6 +130,7 @@ InstaBuild.Text = "TaskESP"
 InstaBuild.TextColor3 = Color3.fromRGB(0, 10, 219)
 InstaBuild.TextSize = 16.000
 InstaBuild.TextWrapped = true
+InstaBuild.Visible = false
 
 TaskAura.Name = "TaskAura"
 TaskAura.Parent = ScrollingFrame
@@ -136,15 +156,16 @@ TaskESP.Text = "EventCaseESP"
 TaskESP.TextColor3 = Color3.fromRGB(170, 0, 255)
 TaskESP.TextSize = 16.000
 TaskESP.TextWrapped = true
+TaskESP.Visible = false
 
 FullBright.Name = "MurchCase"
 FullBright.Parent = ScrollingFrame
 FullBright.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-FullBright.Position = UDim2.new(0.0531504489, 0, 0.0213227645, 0)
+FullBright.Position = UDim2.new(0.0466145016, 0, 0.00465609878, 0)
 FullBright.Size = UDim2.new(0, 136, 0, 27)
 FullBright.Style = Enum.ButtonStyle.RobloxRoundButton
 FullBright.Font = Enum.Font.SourceSans
-FullBright.Text = "MurchCaseESP"
+FullBright.Text = "AutoMurchESP"
 FullBright.TextColor3 = Color3.fromRGB(219, 0, 0)
 FullBright.TextSize = 16.000
 FullBright.TextWrapped = true
@@ -153,11 +174,11 @@ TurnInvisible.Name = "Spot"
 TurnInvisible.Parent = ScrollingFrame
 TurnInvisible.Visible = true
 TurnInvisible.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TurnInvisible.Position = UDim2.new(0.0531504489, 0, 0.107181355, 0)
+TurnInvisible.Position = UDim2.new(0.0531504489, 0, 0.0384944826, 0)
 TurnInvisible.Size = UDim2.new(0, 136, 0, 27)
 TurnInvisible.Style = Enum.ButtonStyle.RobloxRoundButton
 TurnInvisible.Font = Enum.Font.SourceSans
-TurnInvisible.Text = "MetalDetectorSpotESP"
+TurnInvisible.Text = "AutoMetalESP"
 TurnInvisible.TextColor3 = Color3.fromRGB(255, 255, 255)
 TurnInvisible.TextSize = 16.000
 TurnInvisible.TextWrapped = true
@@ -180,30 +201,38 @@ UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.from
 UIGradient.Parent = Frame
 
 RelicESP.MouseButton1Down:connect(function()
-	for i,v in pairs(game:GetService("Workspace").TempMap.Main.Relics:GetChildren()) do
-		if v.ClassName == "Relic" or v:IsA("MeshPart") then
-
-			local function addGui(part)
-				if v:FindFirstChild("STNESP") ~= nil then
-					v:FindFirstChild("STNESP"):Destroy()
-					print("Removing old ESP on " .. part.parent.Name)
-				end
-
-				local gui = Instance.new("BillboardGui", part)
-				gui.Name = "STNESP"
-				gui.Size = UDim2.new(1, 0, 1, 0)
-				gui.AlwaysOnTop = true
-
-				local frame = Instance.new("Frame", gui)
-				frame.Size = UDim2.new(3, 0, 3, 0)
-				frame.BackgroundTransparency = 0.5
-				frame.BorderSizePixel = 0
-				frame.BackgroundColor3 = Color3.fromRGB(251, 255, 0)
-
-				print("Added ESP to " .. part.parent.Name .. "!")
+	if UpdateAlpha == false then
+	UpdateAlpha = true
+	RelicESP.Visible = false
+	while wait(Update) do
+		for _, object in pairs(RelicFrame:GetChildren()) do
+			if object:FindFirstChildOfClass("BillboardGui") then
+				object:Destroy()
 			end
-			addGui(v)
 		end
+		if workspace:FindFirstChild("TempMap") then
+			if workspace.TempMap:FindFirstChild("Main") then
+				if workspace.TempMap.Main:FindFirstChild("Relics") then
+					for _, Relic in pairs(workspace.TempMap.Main.Relics:GetChildren()) do
+						if Relic.ClassName == "Relic" or Relic:IsA("MeshPart") then
+							local Gui = Instance.new("BillboardGui",RelicFrame)
+							Gui.Name = "Relic"
+							Gui.Size = UDim2.new(1, 0, 1, 0)
+							Gui.AlwaysOnTop = true
+							Gui.Adornee = Relic
+								
+							local frame = Instance.new("Frame", Gui)
+							frame.Size = UDim2.new(3, 0, 3, 0)
+							frame.BackgroundTransparency = 0.5
+							frame.BorderSizePixel = 0
+							frame.BackgroundColor3 = Color3.fromRGB(251, 255, 0)	
+								
+						end
+					end
+				end
+			end
+		end
+	  end
 	end
 end)
 
@@ -700,69 +729,70 @@ TaskESP.MouseButton1Down:connect(function()
 end)
 
 FullBright.MouseButton1Down:connect(function()
-	for i,v in pairs(game:GetService("Workspace").Misc.MurchCase.Kit.Top:GetChildren()) do
-		if v.ClassName == "EventCase" or v:IsA("MeshPart") then
-
-			local function addGui(part)
-				if v:FindFirstChild("STNESP") ~= nil then
-					v:FindFirstChild("STNESP"):Destroy()
-					print("Removing old ESP on " .. part.parent.Name)
+	if UpdateBeta == false then
+		UpdateBeta = true
+		FullBright.Visible = false
+		while wait(Update) do
+			for _, object in pairs(MurchFrame:GetChildren()) do
+				if object:IsA("BillboardGui") then
+					object:Destroy()
 				end
-
-				local gui = Instance.new("BillboardGui", part)
-				gui.Name = "STNESP"
-				gui.Size = UDim2.new(1, 0, 1, 0)
-				gui.AlwaysOnTop = true
-
-				local frame = Instance.new("Frame", gui)
-				frame.Size = UDim2.new(3, 0, 3, 0)
-				frame.BackgroundTransparency = 0.5
-				frame.BorderSizePixel = 0
-
-
-				frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-
-
-				print("Added ESP to " .. part.parent.Name .. "!")
 			end
-			addGui(v)
+			if workspace:FindFirstChild("Misc") then
+				if workspace.Misc:FindFirstChild("MurchCase") then
+					if workspace.Misc.MurchCase.Kit:FindFirstChild("Top") then
+						local gui = Instance.new("BillboardGui", MurchFrame)
+						gui.Name = "Murch Case"
+						gui.Size = UDim2.new(1, 0, 1, 0)
+						gui.AlwaysOnTop = true
+						gui.Adornee = workspace.Misc.MurchCase.Kit.Top
+						
+						local frame = Instance.new("Frame", gui)
+						frame.Size = UDim2.new(3, 0, 3, 0)
+						frame.BackgroundTransparency = 0.5
+						frame.BorderSizePixel = 0
+						frame.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
+						
+					end
+				end
+			end
 		end
 	end
 end)
 
 TurnInvisible.MouseButton1Down:connect(function()
-	if debouncespot then return end
-	debouncespot = true
-	local FindSpot = false
+	if UpdateOmega == false then
+	UpdateOmega = true
+	TurnInvisible.Visible = false
+		
+	while wait(Update) do
+			for _, object in pairs(SpotFrame:GetChildren()) do
+				if object:IsA("BillboardGui") then
+				  object:Destroy()
+				end
+			end
 	local chr = game.Players.LocalPlayer.Character
 	if chr.Kit:FindFirstChild("Gear") then
-		if (chr.Kit.Gear.Stats.OriginalName.Value == "Metal Detector" or chr.Kit.Gear.Stats.OriginalName.Value == "Murch's Detector") then
+				if (chr.Kit.Gear.Stats.OriginalName.Value == "Metal Detector" or chr.Kit.Gear.Stats.OriginalName.Value == "Murch's Detector") then
 			for _, spot in pairs(chr.Kit.Gear.Objects:GetChildren()) do
 				if spot.Name == "MetalDetectorPosition" then
-					local gui = Instance.new("BillboardGui", spot)
-					gui.Name = "STNESP"
+					local gui = Instance.new("BillboardGui", SpotFrame)
+					gui.Name = "Spot"
 					gui.Size = UDim2.new(1, 0, 1, 0)
 					gui.AlwaysOnTop = true
-
+						gui.Adornee = spot
+							
 					local frame = Instance.new("Frame", gui)
 					frame.Size = UDim2.new(3, 0, 3, 0)
 					frame.BackgroundTransparency = 0.5
 					frame.BorderSizePixel = 0
 					frame.BackgroundColor3 = Color3.fromRGB(46, 255, 0)
-					FindSpot = true
-				end
-			end
+				    end
+			     end
+		      end
+	       end
 		end
 	end
-	if FindSpot then
-		TurnInvisible.Text ="Successfully"
-	else
-		TurnInvisible.Text = "None"
-	end
-	wait(2)
-	TurnInvisible.Text = "MetalDetectorSpotESP"
-	FindSpot = false
-	debouncespot = false
 end)
 
 ToggleMetalDetectorFarm.MouseButton1Click:Connect(function()
