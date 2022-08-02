@@ -1,7 +1,7 @@
 local ScreenGui = Instance.new("ScreenGui",game.CoreGui)
 ScreenGui.Name = "WRESP"
 local player = game.Players.LocalPlayer
-local Update = 10
+local Update = 1
 while wait(Update) do
 	for _,Frame in pairs(game.CoreGui.WRESP:GetChildren()) do
 		if Frame:IsA("Frame") then
