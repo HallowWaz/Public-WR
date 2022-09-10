@@ -2,12 +2,19 @@
 
 local ScreenGui = Instance.new("ScreenGui",game.CoreGui)
 ScreenGui.Name = "WRESP"
+
 local RelicFrame = Instance.new("Frame",ScreenGui)
 RelicFrame.Name = "Relics"
+
 local MurchFrame = Instance.new("Frame",ScreenGui)
 MurchFrame.Name = "Murch"
+
+local AILAFrame = Instance.new("Frame",ScreenGui)
+AILAFrame.Name = "AILA"
+
 local SpotFrame = Instance.new("Frame",ScreenGui)
 SpotFrame.Name = "Spots"
+
 local TaskFrame = Instance.new("Frame",ScreenGui)
 TaskFrame.Name = "Task"
 
@@ -158,14 +165,14 @@ TaskESP.TextSize = 16.000
 TaskESP.TextWrapped = true
 TaskESP.Visible = false
 
-FullBright.Name = "MurchCase"
+FullBright.Name = "AutoCases"
 FullBright.Parent = ScrollingFrame
-FullBright.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+FullBright.BackgroundColor3 = Color3.fromRGB(2,2,208)
 FullBright.Position = UDim2.new(0.0466145016, 0, 0.00465609878, 0)
 FullBright.Size = UDim2.new(0, 136, 0, 27)
 FullBright.Style = Enum.ButtonStyle.RobloxRoundButton
 FullBright.Font = Enum.Font.SourceSans
-FullBright.Text = "AutoMurchESP"
+FullBright.Text = "AutoCases"
 FullBright.TextColor3 = Color3.fromRGB(219, 0, 0)
 FullBright.TextSize = 16.000
 FullBright.TextWrapped = true
@@ -202,37 +209,37 @@ UIGradient.Parent = Frame
 
 RelicESP.MouseButton1Down:connect(function()
 	if UpdateAlpha == false then
-	UpdateAlpha = true
-	RelicESP.Visible = false
-	while wait(Update) do
-		for _, object in pairs(RelicFrame:GetChildren()) do
-			if object:FindFirstChildOfClass("BillboardGui") then
-				object:Destroy()
+		UpdateAlpha = true
+		RelicESP.Visible = false
+		while wait(Update) do
+			for _, object in pairs(RelicFrame:GetChildren()) do
+				if object:FindFirstChildOfClass("BillboardGui") then
+					object:Destroy()
+				end
 			end
-		end
-		if workspace:FindFirstChild("TempMap") then
-			if workspace.TempMap:FindFirstChild("Main") then
-				if workspace.TempMap.Main:FindFirstChild("Relics") then
-					for _, Relic in pairs(workspace.TempMap.Main.Relics:GetChildren()) do
-						if Relic.ClassName == "Relic" or Relic:IsA("MeshPart") then
-							local Gui = Instance.new("BillboardGui",RelicFrame)
-							Gui.Name = "Relic"
-							Gui.Size = UDim2.new(1, 0, 1, 0)
-							Gui.AlwaysOnTop = true
-							Gui.Adornee = Relic
-								
-							local frame = Instance.new("Frame", Gui)
-							frame.Size = UDim2.new(3, 0, 3, 0)
-							frame.BackgroundTransparency = 0.5
-							frame.BorderSizePixel = 0
-							frame.BackgroundColor3 = Color3.fromRGB(251, 255, 0)	
-								
+			if workspace:FindFirstChild("TempMap") then
+				if workspace.TempMap:FindFirstChild("Main") then
+					if workspace.TempMap.Main:FindFirstChild("Relics") then
+						for _, Relic in pairs(workspace.TempMap.Main.Relics:GetChildren()) do
+							if Relic.ClassName == "Relic" or Relic:IsA("MeshPart") then
+								local Gui = Instance.new("BillboardGui",RelicFrame)
+								Gui.Name = "Relic"
+								Gui.Size = UDim2.new(1, 0, 1, 0)
+								Gui.AlwaysOnTop = true
+								Gui.Adornee = Relic
+
+								local frame = Instance.new("Frame", Gui)
+								frame.Size = UDim2.new(3, 0, 3, 0)
+								frame.BackgroundTransparency = 0.5
+								frame.BorderSizePixel = 0
+								frame.BackgroundColor3 = Color3.fromRGB(251, 255, 0)	
+
+							end
 						end
 					end
 				end
 			end
 		end
-	  end
 	end
 end)
 
@@ -738,6 +745,11 @@ FullBright.MouseButton1Down:connect(function()
 					object:Destroy()
 				end
 			end
+			for _, object in pairs(AILAFrame:GetChildren()) do
+				if object:IsA("BillboardGui") then
+					object:Destroy()
+				end
+			end
 			if workspace:FindFirstChild("Misc") then
 				if workspace.Misc:FindFirstChild("MurchCase") then
 					if workspace.Misc.MurchCase.Kit:FindFirstChild("Top") then
@@ -746,13 +758,28 @@ FullBright.MouseButton1Down:connect(function()
 						gui.Size = UDim2.new(1, 0, 1, 0)
 						gui.AlwaysOnTop = true
 						gui.Adornee = workspace.Misc.MurchCase.Kit.Top
-						
+
 						local frame = Instance.new("Frame", gui)
 						frame.Size = UDim2.new(3, 0, 3, 0)
 						frame.BackgroundTransparency = 0.5
 						frame.BorderSizePixel = 0
 						frame.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
-						
+
+					end
+				end
+				if workspace.Misc:FindFirstChild("AILACase") then
+					if workspace.Misc.AILACase.Kit:FindFirstChild("Top") then
+						local gui = Instance.new("BillboardGui", AILAFrame)
+						gui.Name = "AILACase"
+						gui.Size = UDim2.new(1, 0, 1, 0)
+						gui.AlwaysOnTop = true
+						gui.Adornee = workspace.Misc.AILACase.Kit.Top
+
+						local frame = Instance.new("Frame", gui)
+						frame.Size = UDim2.new(3, 0, 3, 0)
+						frame.BackgroundTransparency = 0.5
+						frame.BorderSizePixel = 0
+						frame.BackgroundColor3 = Color3.fromRGB(67, 255, 243)
 					end
 				end
 			end
@@ -762,35 +789,35 @@ end)
 
 TurnInvisible.MouseButton1Down:connect(function()
 	if UpdateOmega == false then
-	UpdateOmega = true
-	TurnInvisible.Visible = false
-		
-	while wait(Update) do
+		UpdateOmega = true
+		TurnInvisible.Visible = false
+
+		while wait(Update) do
 			for _, object in pairs(SpotFrame:GetChildren()) do
 				if object:IsA("BillboardGui") then
-				  object:Destroy()
+					object:Destroy()
 				end
 			end
-	local chr = game.Players.LocalPlayer.Character
-	if chr.Kit:FindFirstChild("Gear") then
+			local chr = game.Players.LocalPlayer.Character
+			if chr.Kit:FindFirstChild("Gear") then
 				if (chr.Kit.Gear.Stats.OriginalName.Value == "Metal Detector" or chr.Kit.Gear.Stats.OriginalName.Value == "Murch's Detector") then
-			for _, spot in pairs(chr.Kit.Gear.Objects:GetChildren()) do
-				if spot.Name == "MetalDetectorPosition" then
-					local gui = Instance.new("BillboardGui", SpotFrame)
-					gui.Name = "Spot"
-					gui.Size = UDim2.new(1, 0, 1, 0)
-					gui.AlwaysOnTop = true
-						gui.Adornee = spot
-							
-					local frame = Instance.new("Frame", gui)
-					frame.Size = UDim2.new(3, 0, 3, 0)
-					frame.BackgroundTransparency = 0.5
-					frame.BorderSizePixel = 0
-					frame.BackgroundColor3 = Color3.fromRGB(46, 255, 0)
-				    end
-			     end
-		      end
-	       end
+					for _, spot in pairs(chr.Kit.Gear.Objects:GetChildren()) do
+						if spot.Name == "MetalDetectorPosition" then
+							local gui = Instance.new("BillboardGui", SpotFrame)
+							gui.Name = "Spot"
+							gui.Size = UDim2.new(1, 0, 1, 0)
+							gui.AlwaysOnTop = true
+							gui.Adornee = spot
+
+							local frame = Instance.new("Frame", gui)
+							frame.Size = UDim2.new(3, 0, 3, 0)
+							frame.BackgroundTransparency = 0.5
+							frame.BorderSizePixel = 0
+							frame.BackgroundColor3 = Color3.fromRGB(46, 255, 0)
+						end
+					end
+				end
+			end
 		end
 	end
 end)
