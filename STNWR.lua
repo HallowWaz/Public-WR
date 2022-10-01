@@ -18,6 +18,11 @@ SpotFrame.Name = "Spots"
 local TaskFrame = Instance.new("Frame",ScreenGui)
 TaskFrame.Name = "Task"
 
+local EventFrame = Instance.new("Frame",ScreenGui)
+EventFrame.Name = "Event"
+
+local BatteryFrame = Instance.new("Frame",ScreenGui)
+BatteryFrame.Name = "Battery"
 
 for i, v in pairs(game:GetDescendants()) do
 	if v.Name == "ScreenGui" then
@@ -219,6 +224,7 @@ RelicESP.MouseButton1Down:connect(function()
 			end
 			if workspace:FindFirstChild("TempMap") then
 				if workspace.TempMap:FindFirstChild("Main") then
+					
 					if workspace.TempMap.Main:FindFirstChild("Relics") then
 						for _, Relic in pairs(workspace.TempMap.Main.Relics:GetChildren()) do
 							if Relic.ClassName == "Relic" or Relic:IsA("MeshPart") then
@@ -234,6 +240,27 @@ RelicESP.MouseButton1Down:connect(function()
 								frame.BorderSizePixel = 0
 								frame.BackgroundColor3 = Color3.fromRGB(251, 255, 0)	
 
+							end
+						end
+					end
+				end
+			end
+			if workspace:FindFirstChild("TempMap") then
+				if workspace.TempMap:FindFirstChild("Main") then
+					if workspace.TempMap.Main:FindFirstChild("BonusItems") then
+						for _, Battery in pairs(workspace.TempMap.Main.BonusItems:GetChildren()) do
+							if Battery.ClassName == "BlacklightBattery" or Battery:IsA("MeshPart") then
+								local Gui = Instance.new("BillboardGui",BatteryFrame)
+								Gui.Name = "Battery"
+								Gui.Size = UDim2.new(1, 0, 1, 0)
+								Gui.AlwaysOnTop = true
+								Gui.Adornee = Battery
+
+								local frame = Instance.new("Frame", Gui)
+								frame.Size = UDim2.new(3, 0, 3, 0)
+								frame.BackgroundTransparency = 0.5
+								frame.BorderSizePixel = 0
+								frame.BackgroundColor3 = Color3.fromRGB(216, 57, 255)
 							end
 						end
 					end
@@ -780,6 +807,21 @@ FullBright.MouseButton1Down:connect(function()
 						frame.BackgroundTransparency = 0.5
 						frame.BorderSizePixel = 0
 						frame.BackgroundColor3 = Color3.fromRGB(67, 255, 243)
+					end
+				end
+				if workspace.Misc:FindFirstChild("EventCase") then
+					if workspace.Misc.EventCase.Kit:FindFirstChild("Top") then
+					local gui = Instance.new("BillboardGui", EventFrame)
+					gui.Name = "Event Case"
+					gui.Size = UDim2.new(1, 0, 1, 0)
+					gui.AlwaysOnTop = true
+					gui.Adornee = workspace.Misc.EventCase.Kit.Top
+
+					local frame = Instance.new("Frame", gui)
+					frame.Size = UDim2.new(3, 0, 3, 0)
+					frame.BackgroundTransparency = 0.5
+					frame.BorderSizePixel = 0
+					frame.BackgroundColor3 = Color3.fromRGB(195, 74, 26)
 					end
 				end
 			end
